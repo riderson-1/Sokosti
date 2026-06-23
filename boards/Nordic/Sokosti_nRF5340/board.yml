@@ -1,0 +1,9 @@
+board:
+  name: Sokosti_nRF5340
+  full_name: Sokosti_nRF5340
+  vendor: Nordic
+  socs:
+  - name: nrf5340
+    variants:
+    - name: ns
+      cpucluster: cpuapp

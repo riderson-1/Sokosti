@@ -1,0 +1,18 @@
+/dts-v1/;
+
+#include <arm/nordic/nrf5340_cpuapp_ns_qkaa.dtsi>
+#include "Sokosti_nRF5340-pinctrl.dtsi"
+
+/ {
+	model = "Sokosti EMG+IMU board (CPUAPP Non-Secure)";
+	compatible = "Nordic,Sokosti-nRF5340-cpuapp-ns";
+
+	chosen {
+		zephyr,sram = &sram0_ns_app;
+		zephyr,flash = &flash0;
+		zephyr,code-partition = &slot0_ns_partition;
+	};
+};
+
+#include "Sokosti_nRF5340-cpuapp_partitioning.dtsi"
+#include "Sokosti_nRF5340-shared_sram.dtsi"

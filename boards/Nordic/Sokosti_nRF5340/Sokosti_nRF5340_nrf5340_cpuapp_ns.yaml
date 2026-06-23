@@ -1,0 +1,10 @@
+identifier: Sokosti_nRF5340/nrf5340/cpuapp/ns
+name: Sokosti EMG+IMU board
+vendor: Nordic
+type: mcu
+arch: arm
+ram: 192
+flash: 192
+toolchain:
+  - zephyr
+supported: []
