@@ -91,9 +91,8 @@
 		ads_clk_pwm: ads_clk_pwm {
 			pwms = <&pwm0 0 PWM_NSEC(488) PWM_POLARITY_NORMAL>;
 			label = "ADS1299 PWM Clock";
-        };
-    };
-
+		};
+	};
 };
 
 /* Enable GPIO controllers */
@@ -119,7 +118,7 @@
 };
 
 &timer2 {
-    status = "okay";
+	status = "okay";
 };
 
 /* SPI0 configuration (microSD card) */
@@ -190,18 +189,14 @@
 	pinctrl-0 = <&spi4_default>;
 	pinctrl-1 = <&spi4_sleep>;
 	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;   /* must be on the parent */
 
 	ads1299: ads1299@0 {
-		compatible = "ti,ads1299";
+		compatible = "vnd,spi-device";        /* generic SPI device */
 		reg = <0>;
-		spi-max-frequency = <20000000>;
-
-		/* Data-ready interrupt pin */
-		drdy-gpios = <&gpio0 19 GPIO_ACTIVE_LOW>;
+		spi-max-frequency = <DT_FREQ_M(1)>;
 		label = "ADS1299 ADC";
 	};
-
-	cs-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
 };
 
 /* USB device configuration */
@@ -210,12 +205,10 @@
 };
 
 &pwm0 {
-    status = "okay";
-    pinctrl-0 = <&pwm0_default>;
-    pinctrl-1 = <&pwm0_sleep>;
-    pinctrl-names = "default", "sleep";
+	status = "okay";
+	pinctrl-0 = <&pwm0_default>;
+	pinctrl-1 = <&pwm0_sleep>;
+	pinctrl-names = "default", "sleep";
 };
-
-
 #include "Sokosti_nRF5340-cpuapp_partitioning.dtsi"
 #include "Sokosti_nRF5340-shared_sram.dtsi"
