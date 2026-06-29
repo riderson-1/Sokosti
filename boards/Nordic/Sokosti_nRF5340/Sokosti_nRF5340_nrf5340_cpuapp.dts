@@ -14,7 +14,7 @@
 		zephyr,code-partition = &slot0_partition;
 		zephyr,sram-secure-partition = &sram0_s;
 		zephyr,sram-non-secure-partition = &sram0_ns;
-		zephyr,console = &usbd;
+		zephyr,console = &uart0;
 		zephyr,usb-device = &usbd;
 	};
 
@@ -23,6 +23,7 @@
 		led1 = &led1;
 		sw0 = &button0;
 		sw1 = &button1;
+		adsclk = &ads_clk_pwm;
 	};
 
 	leds {
@@ -55,8 +56,9 @@
 		};
 	};
 
-	gpios {
-		/* IMU reset and control pins */
+	control {
+		compatible = "gpio-leds";
+
 		reset_imu_main: reset_imu_main {
 			gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
 			label = "Reset IMU Main";
@@ -67,9 +69,8 @@
 			label = "Reset IMU External";
 		};
 
-		/* ADS1299 control pins */
 		reset_ads: reset_ads {
-			gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
 			label = "Reset ADS1299";
 		};
 
@@ -83,6 +84,16 @@
 			label = "Global Start Signal";
 		};
 	};
+
+	pwmleds {
+		compatible = "pwm-leds";
+
+		ads_clk_pwm: ads_clk_pwm {
+			pwms = <&pwm0 0 PWM_NSEC(488) PWM_POLARITY_NORMAL>;
+			label = "ADS1299 PWM Clock";
+        };
+    };
+
 };
 
 /* Enable GPIO controllers */
@@ -100,16 +111,20 @@
 
 /* UART0 configuration is disabled because USB CDC ACM is used for the console */
 &uart0 {
-	status = "disabled";
+	status = "okay";
 	current-speed = <115200>;
 	pinctrl-0 = <&uart0_default>;
 	pinctrl-1 = <&uart0_sleep>;
 	pinctrl-names = "default", "sleep";
 };
 
+&timer2 {
+    status = "okay";
+};
+
 /* SPI0 configuration (microSD card) */
 &spi0 {
-	status = "okay";
+	status = "disabled";
 	cs-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
 	pinctrl-0 = <&spi0_default>;
 	pinctrl-1 = <&spi0_sleep>;
@@ -146,7 +161,7 @@
 		label = "BHI360 Main IMU";
 	};
 
-	cs-gpios = <&gpio1 12 0>;
+	cs-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
 };
 
 /* SPI3 configuration (External IMU - BHI360) */
@@ -166,7 +181,7 @@
 		label = "BHI360 External IMU";
 	};
 
-	cs-gpios = <&gpio1 11 0>;
+	cs-gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
 };
 
 /* SPI4 configuration (ADS1299 ADC) */
@@ -186,13 +201,21 @@
 		label = "ADS1299 ADC";
 	};
 
-	cs-gpios = <&gpio0 11 0>;
+	cs-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
 };
 
 /* USB device configuration */
 &usbd {
 	status = "okay";
 };
+
+&pwm0 {
+    status = "okay";
+    pinctrl-0 = <&pwm0_default>;
+    pinctrl-1 = <&pwm0_sleep>;
+    pinctrl-names = "default", "sleep";
+};
+
 
 #include "Sokosti_nRF5340-cpuapp_partitioning.dtsi"
 #include "Sokosti_nRF5340-shared_sram.dtsi"
