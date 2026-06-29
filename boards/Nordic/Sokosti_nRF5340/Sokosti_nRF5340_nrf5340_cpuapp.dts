@@ -194,7 +194,7 @@
 	ads1299: ads1299@0 {
 		compatible = "vnd,spi-device";        /* generic SPI device */
 		reg = <0>;
-		spi-max-frequency = <DT_FREQ_M(1)>;
+		spi-max-frequency = <DT_FREQ_M(4)>;
 		label = "ADS1299 ADC";
 	};
 };
