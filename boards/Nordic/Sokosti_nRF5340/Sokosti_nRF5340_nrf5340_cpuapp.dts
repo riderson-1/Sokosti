@@ -14,8 +14,9 @@
 		zephyr,code-partition = &slot0_partition;
 		zephyr,sram-secure-partition = &sram0_s;
 		zephyr,sram-non-secure-partition = &sram0_ns;
-		zephyr,console = &uart0;
 		zephyr,usb-device = &usbd;
+		zephyr,console = &cdc_acm_uart0;
+
 	};
 
 	aliases {
@@ -199,9 +200,24 @@
 	};
 };
 
-/* USB device configuration */
-&usbd {
+
+zephyr_udc0: &usbd {
+	compatible = "nordic,nrf-usbd";
 	status = "okay";
+};
+
+&zephyr_udc0 {
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+};
+
+&usbd {
+    status = "okay";
+
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+    };
 };
 
 &pwm0 {
