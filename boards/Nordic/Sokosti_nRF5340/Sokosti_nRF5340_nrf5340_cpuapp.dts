@@ -74,15 +74,15 @@
 			label = "Reset ADS1299";
 		};
 
-		clk_ads: clk_ads {
-			gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
-			label = "Clock ADS1299";
-		};
-
 		global_start: global_start {
 			gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
 			label = "Global Start Signal";
 		};
+		drdy_ads: drdy_ads {
+			gpios = <&gpio0 19 GPIO_ACTIVE_LOW>;
+    			label = "ADS1299 DRDY";
+};
+
 	};
 
 	pwmleds {
@@ -194,7 +194,7 @@
 	ads1299: ads1299@0 {
 		compatible = "vnd,spi-device";        /* generic SPI device */
 		reg = <0>;
-		spi-max-frequency = <DT_FREQ_M(4)>;
+		spi-max-frequency = <DT_FREQ_M(1)>;
 		label = "ADS1299 ADC";
 	};
 };
