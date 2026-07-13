@@ -61,12 +61,12 @@
 		compatible = "gpio-leds";
 
 		reset_imu_main: reset_imu_main {
-			gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio0 23 GPIO_ACTIVE_LOW>;
 			label = "Reset IMU Main";
 		};
 
 		reset_imu_ext: reset_imu_ext {
-			gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio0 22 GPIO_ACTIVE_LOW>;
 			label = "Reset IMU External";
 		};
 
@@ -154,7 +154,7 @@
 	imu_main: imu_main@0 {
 		compatible = "bosch,bhi360";
 		reg = <0>;
-		spi-max-frequency = <8000000>;
+		spi-max-frequency = <DT_FREQ_M(1)>;
 
 		/* Interrupt pin for data ready */
 		int-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
