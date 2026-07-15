@@ -16,7 +16,8 @@
 		zephyr,sram-non-secure-partition = &sram0_ns;
 		zephyr,usb-device = &usbd;
 		zephyr,console = &cdc_acm_uart0;
-
+		nordic,nus-uart = &cdc_acm_uart0;
+		zephyr,bt-hci = &bt_hci_ipc0;
 	};
 
 	aliases {
@@ -226,5 +227,6 @@ zephyr_udc0: &usbd {
 	pinctrl-1 = <&pwm0_sleep>;
 	pinctrl-names = "default", "sleep";
 };
+
 #include "Sokosti_nRF5340-cpuapp_partitioning.dtsi"
 #include "Sokosti_nRF5340-shared_sram.dtsi"
