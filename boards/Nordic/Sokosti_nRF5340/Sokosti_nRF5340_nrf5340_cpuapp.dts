@@ -176,6 +176,8 @@
 		compatible = "bosch,bhi360";
 		reg = <0>;
 		spi-max-frequency = <8000000>;
+		spi-cs-setup-delay-ns = <1000>;
+		spi-cs-hold-delay-ns = <1000>;
 
 		/* Interrupt pin for data ready */
 		int-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;
